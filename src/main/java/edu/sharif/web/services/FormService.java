@@ -1,12 +1,15 @@
 package edu.sharif.web.services;
 
+import edu.sharif.web.exceptions.FieldNotFoundException;
+import edu.sharif.web.exceptions.FormAlreadyExistsException;
+import edu.sharif.web.exceptions.FormNotFoundException;
 import edu.sharif.web.models.Field;
 import edu.sharif.web.dtos.FieldDto;
 import edu.sharif.web.models.Form;
 import edu.sharif.web.dtos.FormDto;
 import edu.sharif.web.repository.FormRepository;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,22 +25,26 @@ public class FormService {
 
     private final FormRepository formRepository;
 
-    @Autowired
+    // @Autowired
     public FormService(FormRepository formRepository) {
 
         this.formRepository = formRepository;
     }
 
-    public List<Form> getForms() {
+    public List<FormDto> getForms() {
 
-        return this.formRepository.findAll();
+        List<Form> forms = this.formRepository.findAll();
+        return forms.stream().map(form -> {
+            FormDto formDto = new FormDto(form.getId(), form.getName(), form.getPublished());
+            return formDto;
+        }).collect(Collectors.toList());
     }
 
     public FormDto getFormById(Long formId) {
 
         Form form = this.formRepository.findById(formId)
                  .orElseThrow(
-                         () -> new RuntimeException("Form with id" + formId + " not found")
+                         () -> new FormNotFoundException(formId)
                  );
         FormDto formDto = new FormDto(form.getId(), form.getName(), form.getPublished());
         return formDto;
@@ -62,7 +69,7 @@ public class FormService {
 
         Optional<Form> existingForm = this.formRepository.findByName(form.getName());
         if (existingForm.isPresent()) {
-            throw new RuntimeException("A form with the name '" + form.getName() + "' already exists");
+            throw new FormAlreadyExistsException(form.getName());
         }
         else
             this.formRepository.save(form);
@@ -73,7 +80,7 @@ public class FormService {
 
         Form oldForm = formRepository.findById(formId)
                 .orElseThrow(
-                        () -> new RuntimeException("Form with id" + formId + " not found")
+                        () -> new FormNotFoundException(formId)
                 );
 
         oldForm.setName(formDto.name());
@@ -86,7 +93,7 @@ public class FormService {
 
         Form oldForm = formRepository.findById(formId)
                 .orElseThrow(
-                        () -> new RuntimeException("Form with id" + formId + " not found")
+                        () -> new FormNotFoundException(formId)
                 );
         oldForm.setPublished(!oldForm.getPublished());
         this.formRepository.save(oldForm);
@@ -95,6 +102,10 @@ public class FormService {
     @Transactional
     public void deleteForm(Long formId) {
 
+        Form form = formRepository.findById(formId)
+                .orElseThrow(
+                        () -> new FormNotFoundException(formId)
+                );
         formRepository.deleteById(formId);
     }
 
@@ -102,7 +113,7 @@ public class FormService {
 
         Form form = formRepository.findById(formId)
                 .orElseThrow(
-                        () -> new RuntimeException("Form with id" + formId + " not found")
+                        () -> new FormNotFoundException(formId)
                 );
         return form.getFieldDtos();
     }
@@ -112,7 +123,7 @@ public class FormService {
 
         Form form = formRepository.findById(formId)
                 .orElseThrow(
-                        () -> new RuntimeException("Form with id" + formId + " not found")
+                        () -> new FormNotFoundException(formId)
                 );
         List<Field> existingFields = form.getFields();
 
@@ -123,7 +134,7 @@ public class FormService {
                                 .filter(f -> f.getId().equals(fieldDto.id()))
                                 .findFirst()
                                 .orElseThrow(
-                                        () -> new RuntimeException("Field with id" + fieldDto.id() + " not found in form " + formId)
+                                        () -> new FieldNotFoundException(fieldDto.id(), formId)
                                 );
                         existingField.setName(fieldDto.name());
                         existingField.setLabel(fieldDto.label());

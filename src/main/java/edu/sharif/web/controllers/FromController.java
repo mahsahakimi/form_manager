@@ -1,10 +1,9 @@
 package edu.sharif.web.controllers;
 
 import edu.sharif.web.dtos.FieldDto;
-import edu.sharif.web.models.Form;
 import edu.sharif.web.dtos.FormDto;
 import edu.sharif.web.services.FormService;
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,13 +14,13 @@ public class FromController {
 
     private final FormService formService;
 
-    @Autowired
+    // @Autowired
     public FromController(FormService formService) {
         this.formService = formService;
     }
 
     @GetMapping
-    List<Form> getForms() {
+    List<FormDto> getForms() {
         return formService.getForms();
     }
 
