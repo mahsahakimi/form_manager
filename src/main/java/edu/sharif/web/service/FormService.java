@@ -37,15 +37,22 @@ public class FormService {
         return this.formRepository.findAll();
     }
 
-    public Form getFormById(Long formId) {
-        return this.formRepository.findById(formId)
+    public FormDto getFormById(Long formId) {
+        Form form = this.formRepository.findById(formId)
                  .orElseThrow(
                          () -> new RuntimeException("Form with id" + formId + " not found")
                  );
+        FormDto formDto = new FormDto(form.getId(), form.getName(), form.getPublished());
+        return formDto;
+        
     }
 
-    public List<Form> getPublishedForms() {
-         return this.formRepository.findByPublishedTrue();
+    public List<FormDto> getPublishedForms() {
+        List<Form> forms = this.formRepository.findByPublishedTrue();
+        return forms.stream().map(form -> {
+            FormDto formDto = new FormDto(form.getId(), form.getName(), form.getPublished());
+            return formDto;
+        }).collect(Collectors.toList());
      }
 
     @Transactional

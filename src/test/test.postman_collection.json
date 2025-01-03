@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "0a68a335-63ef-46de-a114-f8fd65342540",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39478336"
+	},
+	"item": [
+		{
+			"name": "/forms/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/forms/"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"f1\",\n    \"published\": \"false\"\n}\n\n// {\n//     \"name\" : \"f2\",\n//     \"published\" : \"false\"\n// }\n\n// {\n//     \"name\" : \"f3\",\n//     \"published\" : \"true\"\n// }\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/forms/"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/forms/3"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"new f1\",\n    \"published\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/forms/1"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8080/forms/3"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/{id}/fields",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/forms/2/fields"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/{id}/fields",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"name\": \"Field 1\",\n    \"label\": \"Label 1\",\n    \"type\": \"TEXT\",\n    \"defaultValue\": \"Default Value\"\n  },\n  {\n    \"name\": \"Field 2\",\n    \"label\": \"Label 2\",\n    \"type\": \"NUMBER\",\n    \"defaultValue\": \"123\"\n  }\n]\n\n// [\n//   {\n//     \"id\": 1,\n//     \"name\": \"Field 1 Updated\",\n//     \"label\": \"Label 1 Updated\",\n//     \"type\": \"TEXT\",\n//     \"defaultValue\": \"New Default Value\"\n//   },\n//   {\n//     \"id\": 2,\n//     \"name\": \"Field 2\",\n//     \"label\": \"Label 2\",\n//     \"type\": \"NUMBER\",\n//     \"defaultValue\": \"123\"\n//   },\n//   {\n//       \"name\": \"New Field\",\n//       \"label\": \"New Label\",\n//       \"type\": \"BOOLEAN\",\n//       \"defaultValue\": \"true\"\n//   }\n// ]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/forms/2/fields"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/{id}/publish",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/forms/1/publish"
+			},
+			"response": []
+		},
+		{
+			"name": "/forms/published",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/forms/published"
+			},
+			"response": []
+		}
+	]
+}

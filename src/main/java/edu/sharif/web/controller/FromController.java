@@ -27,12 +27,12 @@ public class FromController {
     }
 
     @GetMapping(path = "/published")
-    List<Form> getPublishedForms() {
+    List<FormDto> getPublishedForms() {
         return formService.getPublishedForms();
     }
 
      @GetMapping(path = "{form_id}")
-     Form getFormById(@PathVariable(name = "form_id") Long formId) {
+     FormDto getFormById(@PathVariable(name = "form_id") Long formId) {
          return formService.getFormById(formId);
      }
 
