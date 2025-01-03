@@ -3,6 +3,7 @@ package edu.sharif.web.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity(name = "Form")
 @Table(name = "form")
@@ -36,8 +37,22 @@ public class Form {
     )
     private Boolean published;
 
-//    @Transient
-//    private List<Field> fields;
+    // @ManyToMany
+    // @JoinTable(
+    //         name = "fields",
+    //         joinColumns = {
+    //                 @JoinColumn(name = "form", referencedColumnName = "id")
+    //         },
+    //         inverseJoinColumns = {
+    //                 @JoinColumn(name = "field", referencedColumnName = "id")
+    //         }
+    // )
+    @OneToMany(
+            mappedBy = "form",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Field> fields;
 
     public Form() { // for JPA
     }
@@ -71,13 +86,20 @@ public class Form {
         this.published = published;
     }
 
-//    public void setFields(List<Field> fields) {
-//        this.fields = fields;
-//    }
-//
-//    public List<Field> getFields() {
-//        return fields;
-//    }
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    public List<FieldDto> getFieldDtos() {
+        return fields.stream().map(field -> {
+            FieldDto fieldDto = new FieldDto(field.getId(), field.getName(), field.getLabel(), field.getType(), field.getDefaultValue());
+            return fieldDto;
+        }).collect(Collectors.toList());
+    }
+
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
 
     @Override
     public String toString() {
@@ -88,13 +110,4 @@ public class Form {
                 '}';
     }
 
-//    @Override
-//    public String toString() {
-//        return "Form{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", published=" + published +
-//                ", fields=" + fields +
-//                '}';
-//    }
 }

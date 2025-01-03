@@ -1,12 +1,13 @@
 package edu.sharif.web.controller;
 
+import edu.sharif.web.model.Field;
+import edu.sharif.web.model.FieldDto;
 import edu.sharif.web.model.Form;
 import edu.sharif.web.model.FormDto;
 import edu.sharif.web.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 @RestController
@@ -36,7 +37,7 @@ public class FromController {
      }
 
     @PostMapping
-    void addForm(@RequestBody FormDto formDto) {
+    void addForm( @RequestBody FormDto formDto) {
         formService.addForm(formDto);
     }
 
@@ -55,14 +56,14 @@ public class FromController {
         formService.deleteForm(formId);
     }
 
-//    @GetMapping(path = "{form_id}/fields")
-//    List<Field> getFormFields(@PathVariable(name = "form_id") Long formId) {
-//        return formService.getFormFields(formId);
-//    }
+    @GetMapping(path = "{form_id}/fields")
+    List<FieldDto> getFormFields(@PathVariable(name = "form_id") Long formId) {
+        return formService.getFormFields(formId);
+    }
 
-//    @PutMapping(path = "{form_id}/fields")
-//    void editFormFields(@PathVariable("form_id") Long formId, @RequestBody FormDto formDto) {
-//        formService.editFormFields(formId, formDto);
-    // }
+    @PutMapping(path = "{form_id}/fields")
+    void editFormFields(@PathVariable("form_id") Long formId, @RequestBody List<FieldDto> fieldDtos) {
+         formService.editFormFields(formId, fieldDtos);
+    }
 
 }
