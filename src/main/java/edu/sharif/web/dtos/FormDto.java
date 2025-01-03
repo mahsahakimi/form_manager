@@ -1,4 +1,4 @@
-package edu.sharif.web.model;
+package edu.sharif.web.dtos;
 
 //import java.time.LocalDate;
 

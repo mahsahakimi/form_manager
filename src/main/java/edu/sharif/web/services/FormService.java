@@ -1,19 +1,20 @@
-package edu.sharif.web.service;
+package edu.sharif.web.services;
 
-import edu.sharif.web.model.Field;
-import edu.sharif.web.model.FieldDto;
-import edu.sharif.web.model.Form;
-import edu.sharif.web.model.FormDto;
+import edu.sharif.web.models.Field;
+import edu.sharif.web.dtos.FieldDto;
+import edu.sharif.web.models.Form;
+import edu.sharif.web.dtos.FormDto;
 import edu.sharif.web.repository.FormRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.transaction.annotation.Transactional;
+
 
 
 @Service
@@ -23,31 +24,27 @@ public class FormService {
 
     @Autowired
     public FormService(FormRepository formRepository) {
+
         this.formRepository = formRepository;
     }
 
-//    private final List<Customer> customers = new ArrayList<>(
-//            List.of(
-//                    new Customer(1L, "Ali", "ali@xyz.com", LocalDate.of(2003, Month.APRIL, 20), 22),
-//                    new Customer(2L, "Sara", "sara@xyz.com", LocalDate.of(2000, Month.DECEMBER, 2), 25)
-//            )
-//    );
-
     public List<Form> getForms() {
+
         return this.formRepository.findAll();
     }
 
     public FormDto getFormById(Long formId) {
+
         Form form = this.formRepository.findById(formId)
                  .orElseThrow(
                          () -> new RuntimeException("Form with id" + formId + " not found")
                  );
         FormDto formDto = new FormDto(form.getId(), form.getName(), form.getPublished());
         return formDto;
-        
     }
 
     public List<FormDto> getPublishedForms() {
+
         List<Form> forms = this.formRepository.findByPublishedTrue();
         return forms.stream().map(form -> {
             FormDto formDto = new FormDto(form.getId(), form.getName(), form.getPublished());
@@ -57,6 +54,7 @@ public class FormService {
 
     @Transactional
     public void addForm(FormDto formDto) {
+
         Form form = new Form(
                 formDto.name(),
                 formDto.published()
@@ -72,6 +70,7 @@ public class FormService {
 
     @Transactional
     public void editForm(Long formId, FormDto formDto) {
+
         Form oldForm = formRepository.findById(formId)
                 .orElseThrow(
                         () -> new RuntimeException("Form with id" + formId + " not found")
@@ -84,6 +83,7 @@ public class FormService {
 
     @Transactional
     public void publishForm(Long formId) {
+
         Form oldForm = formRepository.findById(formId)
                 .orElseThrow(
                         () -> new RuntimeException("Form with id" + formId + " not found")
@@ -94,10 +94,12 @@ public class FormService {
 
     @Transactional
     public void deleteForm(Long formId) {
+
         formRepository.deleteById(formId);
     }
 
     public List<FieldDto> getFormFields(Long formId) {
+
         Form form = formRepository.findById(formId)
                 .orElseThrow(
                         () -> new RuntimeException("Form with id" + formId + " not found")
@@ -107,6 +109,7 @@ public class FormService {
 
     @Transactional
     public void editFormFields(Long formId, @NotNull List<FieldDto> fieldDtos) {
+
         Form form = formRepository.findById(formId)
                 .orElseThrow(
                         () -> new RuntimeException("Form with id" + formId + " not found")

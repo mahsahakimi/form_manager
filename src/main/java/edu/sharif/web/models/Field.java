@@ -1,8 +1,9 @@
-package edu.sharif.web.model;
+package edu.sharif.web.models;
 
 //import jakarta.persistence.EnumType;
 //import jakarta.persistence.Enumerated;
 
+import edu.sharif.web.enums.FieldType;
 import jakarta.persistence.*;
 // import lombok.Getter;
 // import lombok.Setter;

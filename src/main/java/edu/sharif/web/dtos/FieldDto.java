@@ -1,4 +1,6 @@
-package edu.sharif.web.model;
+package edu.sharif.web.dtos;
+
+import edu.sharif.web.enums.FieldType;
 
 public record FieldDto(
         Long id,

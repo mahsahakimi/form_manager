@@ -1,5 +1,6 @@
-package edu.sharif.web.model;
+package edu.sharif.web.models;
 
+import edu.sharif.web.dtos.FieldDto;
 import jakarta.persistence.*;
 
 import java.util.List;

@@ -1,10 +1,9 @@
-package edu.sharif.web.controller;
+package edu.sharif.web.controllers;
 
-import edu.sharif.web.model.Field;
-import edu.sharif.web.model.FieldDto;
-import edu.sharif.web.model.Form;
-import edu.sharif.web.model.FormDto;
-import edu.sharif.web.service.FormService;
+import edu.sharif.web.dtos.FieldDto;
+import edu.sharif.web.models.Form;
+import edu.sharif.web.dtos.FormDto;
+import edu.sharif.web.services.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,11 +32,13 @@ public class FromController {
 
      @GetMapping(path = "{form_id}")
      FormDto getFormById(@PathVariable(name = "form_id") Long formId) {
-         return formService.getFormById(formId);
+
+        return formService.getFormById(formId);
      }
 
     @PostMapping
     void addForm( @RequestBody FormDto formDto) {
+
         formService.addForm(formDto);
     }
 
@@ -48,11 +49,13 @@ public class FromController {
 
     @PostMapping(path = "{form_id}/publish")
     void publishForm(@PathVariable("form_id") Long formId) {
+
         formService.publishForm(formId);
     }
 
     @DeleteMapping(path = "{form_id}")
     void deleteCustomer(@PathVariable("form_id") Long formId) {
+
         formService.deleteForm(formId);
     }
 
