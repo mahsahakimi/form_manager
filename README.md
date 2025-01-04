@@ -20,7 +20,7 @@ This document describes the REST API for managing forms and their fields.
 | `POST` | `/{id}/publish` | Toggles form's publication status.                                                                  | None                                                                                                                                                                                                                                                                                                                                                                      |
 | `GET`  | `/published`    | Retrieves all published forms.                                                                      | None                                                                                                                                                                                                                                                                                                                                                                      |
 
-## Usage
+# Usage
 
 **1. Database Setup**
 
